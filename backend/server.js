@@ -2,6 +2,8 @@ const express = require("express")
 const mongoose = require("mongoose")
 const Product = require("./Product")
 const cors = require("cors")
+const dotenv = require("dotenv")
+dotenv.config()
 
 const app = express()
 
@@ -11,7 +13,7 @@ app.use(express.json())
 
 const connectdb = async () => {
     try {
-        await mongoose.connect("mongodb+srv://abhi:4tsHp2e3e9KQ88KN@cluster0.qohybo8.mongodb.net/")
+        await mongoose.connect(process.env.MONGO_URI)
         console.log("mongodb connected");
     } catch (error) {
         console.log("mongodb connection failed", error);
@@ -89,7 +91,6 @@ app.delete("/api/products/:id", async (req, res) => {
         return res.json({ message: "Can't delete product" })
     }
 })
-
 
 
 app.listen(3000, () => {
